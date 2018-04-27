@@ -1,0 +1,72 @@
+#Hello world ja konsooli printimine
+
+print("Hello world!")
+
+#Muutujad ja muutujatüübid
+
+nimi = "Pearu"
+vanus = 19
+
+print("Mu nimi on Pearu ja olen 19 aastat vana.")
+print("Mu nimi on " + nimi + " ja olen " + str(vanus) + " aastat vana.")
+print("Mu nimi on ", nimi, " ja olen ", vanus, " aastat vana.")
+print(f"Mu nimi on {nimi} ja olen {vanus} aastat vana.")
+
+#Kasutaja sisend
+
+sisend = input("Küsimus, mis kasutajalt küsitakse.")
+
+#Matemaatilised tehted ja muutujasse määramine
+
+arv1 = 3
+arv2 = 4
+
+summa = arv1 + arv2
+vahe = arv1 - arv2
+
+#Arvude võrdlemine ja tõeväärtused
+
+on_suurem_kui = arv1 > arv2
+on_väiksem_kui = arv1 < arv2
+on_võrdne = arv1 == arv2
+
+on_suurem_või_võrdne = arv1 >= arv2
+on_väiksem_või_võrdne = arv1 <=arv2
+
+#if-lause
+
+if True:
+	print("if-ploki kood käivitub!")
+elif True:
+	print("Seda siis välja ei prindita, sest käivitus if-ploki kood!")
+elif False:
+	print("Seda siis välja ei prindita, sest tingimus on väär!")
+else:
+	print("Seda siin välja ei prindita, sest üks plokk ülalolevatest käivitus!")
+
+#järjend
+
+andmehulk = ["üks", "kaks", "kolm", "neli"]
+
+#for-loop
+
+andmehulk = ["üks", "kaks", "kolm", "neli"]
+
+for muutuja in andmehulk:
+	print(muutuja)
+
+#Arvmuutuja muutmine
+
+print(arv1)
+arv1 = arv1 + 2
+print(arv1)
+
+#while-loop
+
+arv1 = 1
+arv2 = 5
+
+while arv1 < arv5:
+	print(arv1)
+	arv1 += 1
+
