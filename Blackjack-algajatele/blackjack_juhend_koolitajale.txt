@@ -18,6 +18,10 @@ Enne koolitust
 # Oma arvutitega tulijate jaoks hoia mälupulgal:
 # 	Python2 või Python3 paigaldajat peamise kolme OS-i jaoks
 #	Pycharmi paigaldajat peamise kolme OS-i jaoks
+#
+# Vaadata, et projektori pilt oleks piisavalt suur ja selge
+# Läbiviija IDE-s valida menüüdest View -> Enter presentation mode, et kindlustada
+# esitluse selgus ja hea välimus.
 
 
 Sissejuhatus
