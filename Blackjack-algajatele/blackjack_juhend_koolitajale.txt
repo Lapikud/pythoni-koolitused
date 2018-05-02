@@ -4,6 +4,21 @@ Lihtne blackjacki mäng
 ======================
 ======================
 
+Enne koolitust
+==============
+# Tee kindlaks, et arvutitel oleks mingi kindel IDE (Pearu soovitab Pycharmi)
+# Tee kindlaks, kas arvutitel on Python2 või Python3, sellest sõltub antud 
+# koolitusel sõne vormindamine:
+# 	%-vormindamine on saadaval mõlemas versioonis
+# 	format() funktsioon on saadavl mõlemas versioonis
+#	f-sõne vormindamine on saadaval vaid Python 3.6-s
+# Ava arvutitel tühi PyCharmi projekt ja pane töölaudadele koodispikker 
+# (näiteks siinolev juhend), et abistajatel oleks lihtsam aidata.
+#
+# Oma arvutitega tulijate jaoks hoia mälupulgal:
+# 	Python2 või Python3 paigaldajat peamise kolme OS-i jaoks
+#	Pycharmi paigaldajat peamise kolme OS-i jaoks
+
 
 Sissejuhatus
 ============
