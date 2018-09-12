@@ -6,7 +6,6 @@ def print_map(game_field, pointer_coords=(1,1)):
     col_count = len(game_field[0])
     pointer_row, pointer_col = pointer_coords
 
-
     if not pointer_row < row_count:
         raise Exception(f"Pointer out of bounds: field has {row_count} rows, pointer is at index {pointer_row}.")
     if not pointer_col < col_count:
