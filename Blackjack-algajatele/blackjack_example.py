@@ -156,7 +156,7 @@ if sisend == "Y":
 
 #Arvuti punktid
 
-arvutipunktid = randint(2, 10)
+arvutipunktid = random.randint(2, 10)
 
 #Mängu kokkuvõte
 if kasutaja_punktid > 21:
@@ -164,7 +164,7 @@ if kasutaja_punktid > 21:
 	print("Sul oli " + str(kasutaja_punktid) + " punkti. See on küll üle kahekümne ühe.")
 elif kasutaja_punktid < arvuti_punktid:
 	print("Arvuti mängis su üle!")
-	print("Sul oli " + str(kasutajapunktid) + " punkti, arvutil aga" + str(arvutipunktid) + " punkti.")
+	print("Sul oli " + str(kasutaja_punktid) + " punkti, arvutil aga" + str(arvutipunktid) + " punkti.")
 else:
 	print("Sa võitsid!")
 
