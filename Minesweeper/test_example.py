@@ -6,14 +6,14 @@ def print_map(game_field):
     row_length = 2 * row_element_count + row_index_len + 2
 
     column_indices = map(str, range(row_element_count))
-    print(f" ||{'|'.join(column_indices)}|")
-    print("=" * row_length)
+    #print(f"   {' '.join(column_indices)}|")
+    print(" " * row_length)
 
     for row_index, row in enumerate(game_field):
 
         row_elements = map(str, game_field[row_index])
-        print(f"{row_index}||{'|'.join(row_elements)}|")
-        print("-" * row_length)
+        print(f"{' '.join(row_elements)}")
+        print(" " * row_length)
 
 if __name__ == "__main__":
 
