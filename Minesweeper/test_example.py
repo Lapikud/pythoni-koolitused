@@ -1,47 +1,140 @@
+from random import randint
 
 
-def print_map(game_field, pointer_coords=(1,1)):
+class Minesweeper:
 
-    row_count = len(game_field)
-    col_count = len(game_field[0])
-    pointer_row, pointer_col = pointer_coords
+    def __init__(self):
+        self.rows = 5
+        self.columns = 6
+        self.mine_count = 4
+        self.game_field = self.create_map()
+        self.user_view = self.get_blank_map()
+        self.pointer_coords = (0, 0)
 
-    if not pointer_row < row_count:
-        raise Exception(f"Pointer out of bounds: field has {row_count} rows, pointer is at index {pointer_row}.")
-    if not pointer_col < col_count:
-        raise Exception(f"Pointer out of bounds: field has {col_count} columns, pointer is at index {pointer_col}.")
+    def create_map(self):
 
-    for row_index, row in enumerate(game_field):
+        field = []
 
-        row_elements = list(map(str, game_field[row_index]))
+        for i in range(self.rows):
+            field.append([" " for j in range(self.columns)])
 
-        if row_index == pointer_row and pointer_col != 0:
-            print(f" {'  '.join(row_elements[:pointer_col])}" + \
-                  f" <{row_elements[pointer_col]}> " + \
-                  '  '.join(row_elements[pointer_col + 1:]))
+        for mine_coord in self.get_all_mine_coords():
 
-        elif row_index == pointer_row and pointer_col == 0:
-            print(f"<{row_elements[0]}> {'  '.join(row_elements[1:])}")
+            mine_row, mine_col = mine_coord
+            field[mine_row][mine_col] = "*"
 
-        else:
-            print(f" {'  '.join(row_elements)}")
+            for row_diff in [-1, 0, 1]:
+                for col_diff in [-1, 0, 1]:
 
+                    one_up_row = mine_row + row_diff
+                    one_up_col = mine_col + col_diff
+                    if not 0 <= one_up_col < self.columns or not 0 <= one_up_row < self.rows:
+                        continue
+
+                    cell = field[one_up_row][one_up_col]
+                    if cell not in (" ", "*"):
+                        field[one_up_row][one_up_col] += 1
+                    elif cell == " ":
+                        field[one_up_row][one_up_col] = 1
+        return field
+
+    def get_blank_map(self):
+        return [['-' for j in range(self.columns)] for i in range(self.rows)]
+
+    def get_open_area_coords(self, game_field, start_coord):
+        start_row, start_col = start_coord
+
+        start = game_field[start_row][start_col]
+
+        if start != " ":
+            raise Exception(f"Start coordinates {start_coord} are not open: expected ' ', got {start}")
+
+        open_area_coords = {start_coord}
+        self.get_open_area_coords_recursively(game_field, start_coord, open_area_coords)
+        return open_area_coords
+
+    def get_open_area_coords_recursively(self, game_field, cur_coords, coords_set):
+        cur_coord_row, cur_coord_col = cur_coords
+
+        for row_diff in (-1, 0, 1):
+            for col_diff in (-1, 0, 1):
+                coord = (cur_coord_row + row_diff, cur_coord_col + col_diff)
+
+                if (0 <= coord[0] < len(game_field) and 0 <= coord[1] < len(game_field[0])) and coord not in coords_set:
+
+                    coord_row, coord_col = coord
+                    if game_field[coord_row][coord_col] != " ":
+                        coords_set.add(coord)
+                    else:
+                        coords_set.add(coord)
+                        self.get_open_area_coords_recursively(game_field, coord, coords_set)
+
+    def get_all_mine_coords(self):
+
+        mine_coords = {0}
+        mine_coords.clear()
+
+        while len(mine_coords) < self.mine_count:
+            mine_coord = (randint(0, self.rows - 1), randint(0, self.columns - 1))
+            mine_coords.add(mine_coord)
+
+        return mine_coords
+
+    def print_map(self):
+
+        game_field = self.game_field
+        row_count = len(game_field)
+        col_count = len(game_field[0])
+        pointer_row, pointer_col = self.pointer_coords
+
+        if not pointer_row < row_count:
+            raise Exception(f"Pointer out of bounds: field has {row_count} rows, pointer is at index {pointer_row}.")
+        if not pointer_col < col_count:
+            raise Exception(f"Pointer out of bounds: field has {col_count} columns, pointer is at index {pointer_col}.")
+
+        for row_index, row in enumerate(game_field):
+
+            row_elements = list(map(str, game_field[row_index]))
+
+            if row_index == pointer_row and pointer_col != 0:
+                print(f" {'  '.join(row_elements[:pointer_col])}" + \
+                      f" <{row_elements[pointer_col]}> " + \
+                      '  '.join(row_elements[pointer_col + 1:]))
+
+            elif row_index == pointer_row and pointer_col == 0:
+                print(f"<{row_elements[0]}> {'  '.join(row_elements[1:])}")
+
+            else:
+                print(f" {'  '.join(row_elements)}")
+
+
+"""
+ANSI codes:
+\003[im where i is:
+5 blinking
+1 bold
+31 fg red
+32 fg green
+33 fg yellow
+34 fg blue
+35 fg violet
+36 fg cyan
+37 fg grey
+
+40-47 same but bg
+91-97 same but lighter
+100-107 same but bg and lighter
+"""
 
 if __name__ == "__main__":
+    field2 = [[" ", " ", "1"],
+              [" ", "1", "1"],
+              ["1", "1", "1"]]
 
-    field1 = [[0,1,2,3,4,5],
-              [1,2,3,4,5,6],
-              [2,3,4,5,6,7],
-              [3,4,5,6,7,8],
-              [4,5,6,7,8,9]]
+    minesweeper = Minesweeper()
+    minesweeper.print_map()
 
 
-    print_map(field1, (0, 0))
-    print()
-    print_map(field1, (0, 1))
-    print()
-    print_map(field1, (3, 3))
-    print()
     # Row/columns error
     # print_map(field1, (5, 3))
     # print_map(field1, (4, 6))
