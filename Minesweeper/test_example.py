@@ -18,17 +18,19 @@ class Minesweeper:
                       "d": (0, 1),
                       "a": (0, -1)}
 
+        self.game()
+
     def game(self):
 
         while True:
+            print()
             self.print_map()
-            user_input = input(">")
+            user_input = input("")
             pointer_content = self.game_field[self.pointer[0]][self.pointer[1]]
-
 
             if user_input in "wasd":
                 diff = self.moves[user_input]
-                new_coords = (self.pointer[0] + diff[0], self.pointer + diff[1])
+                new_coords = (self.pointer[0] + diff[0], self.pointer[1] + diff[1])
 
                 if self.are_in_bounds(new_coords):
                     self.pointer = new_coords
@@ -46,12 +48,12 @@ class Minesweeper:
             elif user_input == "e":
                 # mark mine
                 pass
+
             else:
                 print("Come again?")
 
     def are_in_bounds(self, coords):
         return 0 <= coords[0] < self.rows and 0 <= coords[1] < self.columns
-
 
     def create_map(self):
 
@@ -122,9 +124,10 @@ class Minesweeper:
 
         return mine_coords
 
-    def print_map(self, gamefield=user_view):
+    def print_map(self, debug=False):
 
-        game_field = self.game_field
+        game_field = self.game_field if debug else self.user_view
+
         row_count = len(game_field)
         col_count = len(game_field[0])
         pointer_row, pointer_col = self.pointer
