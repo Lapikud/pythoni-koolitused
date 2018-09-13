@@ -4,12 +4,54 @@ from random import randint
 class Minesweeper:
 
     def __init__(self):
+
         self.rows = 5
         self.columns = 6
         self.mine_count = 4
+
         self.game_field = self.create_map()
         self.user_view = self.get_blank_map()
-        self.pointer_coords = (0, 0)
+        self.pointer = (0, 0)
+
+        self.moves = {"w": (-1, 0),
+                      "s": (1, 0),
+                      "d": (0, 1),
+                      "a": (0, -1)}
+
+    def game(self):
+
+        while True:
+            self.print_map()
+            user_input = input(">")
+            pointer_content = self.game_field[self.pointer[0]][self.pointer[1]]
+
+
+            if user_input in "wasd":
+                diff = self.moves[user_input]
+                new_coords = (self.pointer[0] + diff[0], self.pointer + diff[1])
+
+                if self.are_in_bounds(new_coords):
+                    self.pointer = new_coords
+                else:
+                    print("Nowhere to go.")
+
+            elif user_input == "":
+                if pointer_content == "*":
+                    pass
+                elif pointer_content == " ":
+                    pass
+                else:
+                    pass
+
+            elif user_input == "e":
+                # mark mine
+                pass
+            else:
+                print("Come again?")
+
+    def are_in_bounds(self, coords):
+        return 0 <= coords[0] < self.rows and 0 <= coords[1] < self.columns
+
 
     def create_map(self):
 
@@ -28,7 +70,7 @@ class Minesweeper:
 
                     one_up_row = mine_row + row_diff
                     one_up_col = mine_col + col_diff
-                    if not 0 <= one_up_col < self.columns or not 0 <= one_up_row < self.rows:
+                    if not self.are_in_bounds((one_up_row, one_up_col)):
                         continue
 
                     cell = field[one_up_row][one_up_col]
@@ -60,7 +102,7 @@ class Minesweeper:
             for col_diff in (-1, 0, 1):
                 coord = (cur_coord_row + row_diff, cur_coord_col + col_diff)
 
-                if (0 <= coord[0] < len(game_field) and 0 <= coord[1] < len(game_field[0])) and coord not in coords_set:
+                if self.are_in_bounds(coord) and coord not in coords_set:
 
                     coord_row, coord_col = coord
                     if game_field[coord_row][coord_col] != " ":
@@ -80,12 +122,12 @@ class Minesweeper:
 
         return mine_coords
 
-    def print_map(self):
+    def print_map(self, gamefield=user_view):
 
         game_field = self.game_field
         row_count = len(game_field)
         col_count = len(game_field[0])
-        pointer_row, pointer_col = self.pointer_coords
+        pointer_row, pointer_col = self.pointer
 
         if not pointer_row < row_count:
             raise Exception(f"Pointer out of bounds: field has {row_count} rows, pointer is at index {pointer_row}.")
