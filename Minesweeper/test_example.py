@@ -1,3 +1,4 @@
+import os
 from random import randint
 
 
@@ -12,6 +13,7 @@ class Minesweeper:
         self.game_field = self.create_map()
         self.user_view = self.get_blank_map()
         self.pointer = (0, 0)
+        self.message = ""
 
         self.moves = {"w": (-1, 0),
                       "s": (1, 0),
@@ -23,34 +25,43 @@ class Minesweeper:
     def game(self):
 
         while True:
-            print()
+            os.system("clear")
             self.print_map()
+            print(self.message)
+            self.message = ""
             user_input = input("")
             pointer_content = self.game_field[self.pointer[0]][self.pointer[1]]
 
-            if user_input in "wasd":
+            if user_input in self.moves.keys():
                 diff = self.moves[user_input]
                 new_coords = (self.pointer[0] + diff[0], self.pointer[1] + diff[1])
 
                 if self.are_in_bounds(new_coords):
                     self.pointer = new_coords
                 else:
-                    print("Nowhere to go.")
+                    self.message = "Nowhere to go."
 
             elif user_input == "":
                 if pointer_content == "*":
-                    pass
+                    self.user_view = self.game_field
+                    os.system("clear")
+                    break
                 elif pointer_content == " ":
-                    pass
+                    for coord in self.get_open_area_coords(self.game_field, self.pointer):
+                        self.show_coord(coord)
                 else:
-                    pass
+                    self.show_coord(self.pointer)
 
             elif user_input == "e":
                 # mark mine
                 pass
 
             else:
-                print("Come again?")
+                self.message = "Come again?"
+
+    def show_coord(self, coord):
+        coord_row, coord_col = coord
+        self.user_view[coord_row][coord_col] = self.game_field[coord_row][coord_col]
 
     def are_in_bounds(self, coords):
         return 0 <= coords[0] < self.rows and 0 <= coords[1] < self.columns
