@@ -23,8 +23,9 @@ Tegelikkuses sai koodimaterjal otsa juba 18:30 kanti, sealt edasi täiendas Pear
 Märksõnu järgmisteks koolitusteks
 ---------------------------------
 
-- reklaamida välja ka Pythoni versioon, mida koolitusel tarvis on.
-- vältida blackjacki koolituse kasutust inimeste peal, kes on ülikoolis, sest enamus huvitujaid on koodimisega juba tuttavad.
-- küsida enne koolitust, kas kõigil on läpakas.
-- teha ühe koolituse asemel kaks erinevat koolitust tudengitele, kus tasemed on eristatud ja kasutada blackjacki koodi algajate peal, kes pole varem koodinud.
-- reklaamida järgmise koolituse tulemust-toodet samamoodi nagu sel koolitusel, sest see tundus olevat hea promo.
+- Reklaamida välja ka Pythoni versioon, mida koolitusel tarvis on.
+- Vältida blackjacki koolituse kasutust inimeste peal, kes on ülikoolis, sest enamus huvitujaid on koodimisega juba tuttavad.
+- Küsida enne koolitust, kas kõigil on läpakas.
+- Teha ühe koolituse asemel kaks erinevat koolitust tudengitele, kus tasemed on eristatud ja kasutada blackjacki koodi algajate peal, kes pole varem koodinud.
+- Reklaamida järgmise koolituse tulemust-toodet samamoodi nagu sel koolitusel, sest see tundus olevat hea promo.
+- Võib implementeerida eelmiste mängude statistika: mitu võitu, kaotust ja viiki kasutajal on olnud.
