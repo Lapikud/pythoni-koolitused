@@ -48,12 +48,14 @@ Seletada kommentaare ja väljakommenteerimist, kommenteerida välja isikustatud 
 Teha kaardisummade muutujad:
 
 ::
+
 	kasutaja_punktid = 0
 	arvuti_punktid = 0
 
 Testida ja printida kaardisummad välja:
 
 ::
+
 	print("Sul on " + str(kasutaja_punktid) + " punkti.")
 
 
@@ -105,12 +107,15 @@ Teha kaardivõtu ümber while-loop ja näidata infinity-loop algajatele erindit 
 		...
 
 Realiseerida arvuti punktid:
+
 ::
+
 	arvutipunktid = randint(2, 10)
 
 Teha mängule kokkuvõte:
 
 ::
+
 	if kasutaja_punktid > 21:
 		print("Läksid lõhki ja kaotasid!")
 		print("Sul oli " + str(kasutaja_punktid) + " punkti. See on küll üle kahekümne ühe.")
