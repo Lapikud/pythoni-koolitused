@@ -3,6 +3,7 @@ Pythoni koolitus algajatele: lihtne blackjacki mäng
 
 Enne koolitust
 ==============
+
 + Tee kindlaks, et arvutitel oleks mingi kindel IDE (Pearu soovitab Pycharmi)
 + Tee kindlaks, kas arvutitel on Python2 või Python3, sellest sõltub antud koolitusel sõne vormindamine:
 	+ %-vormindamine on saadaval mõlemas versioonis
