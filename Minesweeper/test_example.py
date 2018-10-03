@@ -1,4 +1,5 @@
 import os
+import sys
 from random import randint
 
 
@@ -29,7 +30,7 @@ class Minesweeper:
             self.print_map()
             print(self.message)
             self.message = ""
-            user_input = input("")
+            user_input = self.wait_for_key()
             pointer_content = self.game_field[self.pointer[0]][self.pointer[1]]
 
             if user_input in self.moves.keys():
@@ -41,7 +42,7 @@ class Minesweeper:
                 else:
                     self.message = "Nowhere to go."
 
-            elif user_input == "":
+            elif user_input == " ":
                 if pointer_content == "*":
                     self.user_view = self.game_field
                     os.system("clear")
@@ -162,6 +163,30 @@ class Minesweeper:
 
             else:
                 print(f" {'  '.join(row_elements)}")
+
+    def wait_for_key(self):
+        ''' Wait for a key press on the console and return it. '''
+        result = None
+        if os.name == 'nt':
+            import msvcrt
+            result = msvcrt.getch()
+        else:
+            import termios
+            fd = sys.stdin.fileno()
+
+            oldterm = termios.tcgetattr(fd)
+            newattr = termios.tcgetattr(fd)
+            newattr[3] = newattr[3] & ~termios.ICANON & ~termios.ECHO
+            termios.tcsetattr(fd, termios.TCSANOW, newattr)
+
+            try:
+                result = sys.stdin.read(1)
+            except IOError:
+                pass
+            finally:
+                termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
+
+        return result
 
 
 """
