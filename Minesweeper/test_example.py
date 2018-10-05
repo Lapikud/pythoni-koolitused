@@ -94,6 +94,7 @@ class Minesweeper:
                         field[one_up_row][one_up_col] = 1
         return field
 
+
     def get_blank_map(self):
         return [['-' for j in range(self.columns)] for i in range(self.rows)]
 
@@ -213,7 +214,6 @@ if __name__ == "__main__":
               ["1", "1", "1"]]
 
     minesweeper = Minesweeper()
-    minesweeper.print_map()
 
 
     # Row/columns error
