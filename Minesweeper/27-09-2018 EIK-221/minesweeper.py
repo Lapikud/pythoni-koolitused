@@ -54,6 +54,8 @@ class Minesweeper:
                     cell_row = mine_row + row_diff
                     cell_col = mine_col + col_diff
 
+                    # TODO: we want to continue (break the current iteration) only when the cell coordinates are
+                    # OUTSIDE of bounds - so modify the next line to reflect that!
                     if self.in_bounds(cell_row, cell_col):
                         continue
 
@@ -76,6 +78,9 @@ class Minesweeper:
 
             mine_row = random.randint(0, self.rows - 1)
             mine_col = random.randint(0, self.columns - 1)
+            # TODO: use the if conditional that's been commented out and indent the following line correctly.
+            # can you see what changes?
+            # if (mine_row, mine_col) not in mine_coords:
             mine_coords.append((mine_row, mine_col))
 
         return mine_coords
