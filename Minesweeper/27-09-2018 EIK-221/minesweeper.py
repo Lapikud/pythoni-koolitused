@@ -54,9 +54,8 @@ class Minesweeper:
                     cell_row = mine_row + row_diff
                     cell_col = mine_col + col_diff
 
-                    # TODO: we want to continue (break the current iteration) only when the cell coordinates are
-                    # OUTSIDE of bounds - so modify the next line to reflect that!
-                    if self.in_bounds(cell_row, cell_col):
+                    # the "not" wasn't on the board the last time!
+                    if not self.in_bounds(cell_row, cell_col):
                         continue
 
                     cell = gamefield[cell_row][cell_col]
@@ -68,23 +67,17 @@ class Minesweeper:
 
         return gamefield
 
-
-
     def get_mine_coords(self):
 
         mine_coords = []
 
         while len(mine_coords) < self.mine_count:
-
             mine_row = random.randint(0, self.rows - 1)
             mine_col = random.randint(0, self.columns - 1)
-            # TODO: use the if conditional that's been commented out and indent the following line correctly.
-            # can you see what changes?
-            # if (mine_row, mine_col) not in mine_coords:
-            mine_coords.append((mine_row, mine_col))
+            if (mine_row, mine_col) not in mine_coords:  # the condition wasn't added on the board the last time!
+                mine_coords.append((mine_row, mine_col))
 
         return mine_coords
-
 
     def blank_map(self, character):
 
@@ -115,8 +108,6 @@ class Minesweeper:
                 print("".join(row_string))
             else:
                 print(" " + "  ".join(row) + " ")
-
-
 
 if __name__ == "__main__":
     sweeper = Minesweeper(4, 5)
