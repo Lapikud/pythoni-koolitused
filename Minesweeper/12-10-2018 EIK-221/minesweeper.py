@@ -111,4 +111,3 @@ class Minesweeper:
 
 if __name__ == "__main__":
     sweeper = Minesweeper(4, 5)
-    sweeper.print_map()
