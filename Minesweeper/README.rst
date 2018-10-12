@@ -287,7 +287,8 @@ Kas kasutaja on kõik miinid märgistanud ja vaated ühtivad? Kontrollime handle
         return True
 
 
-Ja peakski valmis olema - võib asju *fancy*maks teha:
+Ja peakski valmis olema - võib asju *fancy*-maks teha:
+
 + võitmine ilma miine märgistamata?
 + tühjade lahtrite rekursiivne avamine
 + handle_input() meetodis suundade salvestamine sõnastikku (if lausete vähendamine)
