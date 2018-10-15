@@ -18,15 +18,15 @@ koolitust vedas Laura Olek. Koolitusel osales 4 inimest. Tõenäolised tegurid m
     + lühike etteteatamisaeg FBs (kuna oli raskusi kuupäeva paika panemisega).
 
 Kahel osalejal jõudsime koodis paar väikest viga enne koolituse algust parandada. Teised jõudsid kahjuks hiljem ning neil oli rohkem probleeme, mistõttu said nad repos olevat eelmise korra koodi kasutada.
+
 Põhiosa (mis ka Minesweeper kausta READMEs kirjeldatud) võttis 40 min, edasi tegime rekursiooni tühjade lahtrite avamiseks - Pearu algses (test_example.py) koodis oli see funktsionaalsus olemas.
 
 Märksõnu järgmisteks koolitusteks
 ---------------------------------
 
-- Mahukama koolituse planeerimisel võiks arvestada võimalusega, et plaanipäraselt lõpetada ei jõua, ning enne leida mõni sobiv kuupäev, millal jätkata.
-Need saab kohe poolelijäänud koolitusel välja pakkuda, et osalejad saavad oma arvamuse öelda ja kuupäeva saab lukku panna.
+
+- Mahukama koolituse planeerimisel võiks arvestada võimalusega, et plaanipäraselt lõpetada ei jõua, ning enne leida mõni sobiv kuupäev, millal jätkata. Need saab kohe poolelijäänud koolitusel välja pakkuda, et osalejad saavad oma arvamuse öelda ja kuupäeva saab lukku panna.
 - Korraldusliku poole pealt peaks nõudma ja andma konkreetsemaid vastuseid (mis kuupäev jääb, kes koolitab jne). Teisisõnu võiks võimalikud asendajad jt võimalikult vara projekti kaasata, sest poole pealt ei julgeta suuremat rolli endale võtta.
-- Järelaitamist (eelmise korra vigade parandamist) võiks paremini läbi mõelda (kuna inimesed ei pruugi erroritest
-hoolimata piisavalt vara kohale tulla, siis mida teha nendega, kelle kood on korras ja ootavad, et teiste kood parandatakse ja koolitus saaks alata).
+- Järelaitamist (eelmise korra vigade parandamist) võiks paremini läbi mõelda (kuna inimesed ei pruugi erroritest hoolimata piisavalt vara kohale tulla, siis mida teha nendega, kelle kood on korras ja ootavad, et teiste kood parandatakse ja koolitus saaks alata).
 - Rekursiivselt tühjade lahtrite avamisele võiks lisada selle blokiga külgneva numbrirea avamise.
 
