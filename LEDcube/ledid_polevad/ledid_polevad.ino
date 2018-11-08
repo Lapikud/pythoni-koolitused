@@ -8,6 +8,7 @@ double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ; // Set-up  read data values
 double AcReads[6]; // To be able to use for-loops to set LED-values18000
 
 const int pins[] = {3, 5, 6, 9, 10, 11}; // Pins in use
+// Pin order: Top Bottom Front Back Left Right  -- I think (O_O)
 
 void setup() {
   Wire.begin();
@@ -34,14 +35,9 @@ void loop() {
   AcZoff = 0;
 
   // Read Accelerator data
-  AcX = (Wire.read() << 8 | Wire.read()) + AcXoff;
-  AcY = (Wire.read() << 8 | Wire.read()) + AcYoff;
-  AcZ = (Wire.read() << 8 | Wire.read()) + AcYoff;
-
-  // Sort data into array for the for-loop
-  AcReads[0] = AcZ;
-  AcReads[1] = AcX;
-  AcReads[2] = AcY;
+  AcReads[1] = (Wire.read() << 8 | Wire.read()) + AcXoff; // AcX
+  AcReads[2] = (Wire.read() << 8 | Wire.read()) + AcYoff; // AcY
+  AcReads[0] = (Wire.read() << 8 | Wire.read()) + AcZoff; // AcZ
 
   // Send data to LED's
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
@@ -52,11 +48,11 @@ void loop() {
     Explaining the for-loop above:
         
     analogWrite(pins[0], (((AcReads[0] + 20000) / 157)));
-    analogWrite(pins[1], (((-AcReads[1] + 20000) / 157)));
-    analogWrite(pins[2], (((AcReads[2] + 20000) / 157)));
-    analogWrite(pins[3], (((-AcReads[3] + 20000) / 157)));
-    analogWrite(pins[4], (((AcReads[4] + 20000) / 157)));
-    analogWrite(pins[5], (((-AcReads[5] + 20000) / 157)));
+    analogWrite(pins[1], (((-AcReads[0] + 20000) / 157)));
+    analogWrite(pins[2], (((AcReads[1] + 20000) / 157)));
+    analogWrite(pins[3], (((-AcReads[1] + 20000) / 157)));
+    analogWrite(pins[4], (((AcReads[2] + 20000) / 157)));
+    analogWrite(pins[5], (((-AcReads[2] + 20000) / 157)));
   */
 
   // For serial-plotter data -> Ctrl + Shift + L
