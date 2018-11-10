@@ -4,7 +4,7 @@
 
 const int MPU = 0x68;
 double Tmp, GyX, GyY, GyZ; // Set-up  read data values
-double AcReads[6]; // To be able to use for-loops to set LED-values
+double AcReads[3]; // To be able to use for-loops to set LED-values
 
 const int pins[] = {3, 5, 6, 9, 10, 11}; // Pins in use
 // Pin order: Top Bottom Front Back Left Right  -- I think (O_O)
@@ -64,10 +64,10 @@ void loop() {
     Serial.print(" Left: "); Serial.println(((-AcReads[(int)5/2] + 20000) / 157));
   */
 
-  // Read temperature data so accelerator data would read be from the right place
+  // Read temperature data so accelerator data would be read from the right place
   Tmp = (Wire.read() << 8 | Wire.read());
 
-  // Read gyro data so accelerator data would read be from the right place
+  // Read gyro data so accelerator data would be read from the right place
   GyX = (Wire.read() << 8 | Wire.read());
   GyY = (Wire.read() << 8 | Wire.read());
   GyZ = (Wire.read() << 8 | Wire.read());
