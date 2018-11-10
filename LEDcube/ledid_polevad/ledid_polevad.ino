@@ -40,7 +40,7 @@ void loop() {
 
   // Send data to LED's
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    analogWrite(pins[i], ((1 - 2 * (i % 2))*(AcReads[i/2]*AcReads[i/2]*AcReads[i/2])/270);
+    analogWrite(pins[i], (1 - 2 * (i % 2))*(AcReads[i/2]*AcReads[i/2]*AcReads[i/2])/270);
   }
 
   /*
