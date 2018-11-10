@@ -1,11 +1,10 @@
 #include<Wire.h>
-#include<math.h>
 
 // TODO: Round/Stabalize the accelerator reads, to prevent shaking messing up lighting so much
 
 const int MPU = 0x68;
-double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ; // Set-up  read data values
-double AcReads[6]; // To be able to use for-loops to set LED-values18000
+double Tmp, GyX, GyY, GyZ; // Set-up  read data values
+double AcReads[6]; // To be able to use for-loops to set LED-values
 
 const int pins[] = {3, 5, 6, 9, 10, 11}; // Pins in use
 // Pin order: Top Bottom Front Back Left Right  -- I think (O_O)
@@ -34,14 +33,14 @@ void loop() {
   AcYoff = -300;
   AcZoff = 0;
 
-  // Read Accelerator data
-  AcReads[1] = (Wire.read() << 8 | Wire.read()) + AcXoff; // AcX
-  AcReads[2] = (Wire.read() << 8 | Wire.read()) + AcYoff; // AcY
-  AcReads[0] = (Wire.read() << 8 | Wire.read()) + AcZoff; // AcZ
+  // Read Accelerator data and set it up for calculations
+  AcReads[1] = ((Wire.read() << 8 | Wire.read()) + AcXoff+20000)/1000; // AcX
+  AcReads[2] = ((Wire.read() << 8 | Wire.read()) + AcYoff+20000)/1000; // AcY
+  AcReads[0] = ((Wire.read() << 8 | Wire.read()) + AcZoff+20000)/1000; // AcZ
 
   // Send data to LED's
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    analogWrite(pins[i], ((1 - 2 * (i % 2))*AcReads[i/2] + 20000) / 157);
+    analogWrite(pins[i], ((1 - 2 * (i % 2))*(AcReads[i/2]*AcReads[i/2]*AcReads[i/2])/270);
   }
 
   /*
@@ -56,12 +55,14 @@ void loop() {
   */
 
   // For serial-plotter data -> Ctrl + Shift + L
-  Serial.print(" Top : "); Serial.print(((AcReads[0] + 20000) / 157));
-  Serial.print(" Bottom: "); Serial.print(((-AcReads[(int)1/2] + 20000) / 157));
-  Serial.print(" Back: "); Serial.print(((AcReads[(int)2/2] + 20000) / 157));
-  Serial.print(" Front: "); Serial.print(((-AcReads[(int)3/2] + 20000) / 157));
-  Serial.print(" Right: "); Serial.print(((AcReads[(int)4/2] + 20000) / 157));
-  Serial.print(" Left: "); Serial.println(((-AcReads[(int)5/2] + 20000) / 157));
+  /*
+    Serial.print(" Top : "); Serial.print(((AcReads[0] + 20000) / 157));
+    Serial.print(" Bottom: "); Serial.print(((-AcReads[(int)1/2] + 20000) / 157));
+    Serial.print(" Back: "); Serial.print(((AcReads[(int)2/2] + 20000) / 157));
+    Serial.print(" Front: "); Serial.print(((-AcReads[(int)3/2] + 20000) / 157));
+    Serial.print(" Right: "); Serial.print(((AcReads[(int)4/2] + 20000) / 157));
+    Serial.print(" Left: "); Serial.println(((-AcReads[(int)5/2] + 20000) / 157));
+  */
 
   // Read temperature data so accelerator data would read be from the right place
   Tmp = (Wire.read() << 8 | Wire.read());
