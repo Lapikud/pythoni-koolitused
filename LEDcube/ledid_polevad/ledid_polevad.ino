@@ -24,7 +24,8 @@ void loop() {
   Wire.beginTransmission(MPU);
   Wire.write(0x3B);
   Wire.endTransmission(false);
-  Wire.requestFrom(MPU, 14, true);
+  //Wire.requestFrom(MPU, 14, true);
+  Wire.requestFrom(MPU, 6, true);
 
   double AcXoff, AcYoff, AcZoff; // Fix readings
 
@@ -63,19 +64,12 @@ void loop() {
   }
   Serial.println();
   /*
-    Serial.print(" Top : "); Serial.print(((AcReads[0]*AcReads[0]*AcReads[0]) / 270));
-    Serial.print(" Bottom: "); Serial.print(((-AcReads[(int)1 / 2] + 20000) / 157));
-    Serial.print(" Back: "); Serial.print(((AcReads[(int)2 / 2] + 20000) / 157));
-    Serial.print(" Front: "); Serial.print(((-AcReads[(int)3 / 2] + 20000) / 157));
-    Serial.print(" Right: "); Serial.print(((AcReads[(int)4 / 2] + 20000) / 157));
-    Serial.print(" Left: "); Serial.println(((-AcReads[(int)5 / 2] + 20000) / 157));
-  */
-
-  // Read temperature data so accelerator data would read be from the right place
+  // Read temperature data so accelerator data would be read from the right place
   Tmp = (Wire.read() << 8 | Wire.read());
 
-  // Read gyro data so accelerator data would read be from the right place
+  // Read gyro data so accelerator data would be read from the right place
   GyX = (Wire.read() << 8 | Wire.read());
   GyY = (Wire.read() << 8 | Wire.read());
   GyZ = (Wire.read() << 8 | Wire.read());
+  */
 }
