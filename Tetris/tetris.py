@@ -56,7 +56,6 @@ class Tetris:
         print()
         print(startend)
 
-
     def move_all_down(self):
         """Moves down the required shapes."""
         for shape in self.shapes:
