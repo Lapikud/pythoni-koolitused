@@ -1,73 +1,89 @@
 #include<Wire.h>
-#include<math.h>
 
 // TODO: Round/Stabalize the accelerator reads, to prevent shaking messing up lighting so much
 
-const int MPU = 0x68;
-double AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ; // Set-up  read data values
-double AcReads[6]; // To be able to use for-loops to set LED-values18000
+const int MPU = 0x68;  // Memory address/serialBus reserved for communicating with gyro // Prolly translates to A4
+double AcReads[3]; // For storing gyro values
 
-const int pins[] = {3, 5, 6, 9, 10, 11}; // Pins in use
+// const int pins[] = {5, 3, 9, 10, 6, 11}; // Pins used for LEDs
+const int pins[] = {10, 5, 6, 9, 3, 11}; 
 // Pin order: Top Bottom Front Back Left Right  -- I think (O_O)
 
 void setup() {
-  Wire.begin();
-  Wire.beginTransmission(MPU);
-  Wire.write(0x6B);
-  Wire.write(0);
+  Wire.begin(); // Start sending data from from a wire
+  Wire.beginTransmission(MPU); // Use MPU address to send data to gyro
+  Wire.write(0x6B); // Initialize gyro
+  Wire.write(0); // Stop bit
   Wire.endTransmission(true);
-  Serial.begin(9600);
-  for (int i = 0; i < 6; i++) {
+  Serial.begin(9600); // For custom logging/debugging
+  for (int i = 0; i < 6; i++) { // Initialize LED pins for output
     pinMode(pins[i], OUTPUT);
   }
 }
+
+int findIndex() {
+  double maxValue = 0;
+  int maxIndex = 0;
+  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
+    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
+    if (temp > maxValue) {
+      maxIndex = i;
+      maxValue = temp;
+    }
+  }
+  return maxIndex;
+}
+
 void loop() {
-  Wire.beginTransmission(MPU);
-  Wire.write(0x3B);
+  Wire.beginTransmission(MPU); // Start communication on address/bus MPU
+  Wire.write(0x3B); // Poke gyro
   Wire.endTransmission(false);
-  Wire.requestFrom(MPU, 14, true);
+  Wire.requestFrom(MPU, 6, true); // Ask gyro for 6 bytes of accelerometer data
 
-  double AcXoff, AcYoff, AcZoff; // Fix readings
-
-  // Acceleration data correction
-  AcXoff = -950;
-  AcYoff = -300;
-  AcZoff = 0;
-
-  // Read Accelerator data
-  AcReads[1] = (Wire.read() << 8 | Wire.read()) + AcXoff; // AcX
-  AcReads[2] = (Wire.read() << 8 | Wire.read()) + AcYoff; // AcY
-  AcReads[0] = (Wire.read() << 8 | Wire.read()) + AcZoff; // AcZ
+  // Read Accelerator data and set it up for calculations
+  AcReads[1] = ((Wire.read() << 8 | Wire.read())); // AcX
+  AcReads[2] = ((Wire.read() << 8 | Wire.read())); // AcY
+  AcReads[0] = ((Wire.read() << 8 | Wire.read())); // AcZ
 
   // Send data to LED's
+  int highIndex = findIndex();
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    analogWrite(pins[i], ((1 - 2 * (i % 2))*AcReads[i/2] + 20000) / 157);
+    if(i == highIndex) {
+      digitalWrite(pins[i], HIGH);    
+    } else {
+      digitalWrite(pins[i], LOW);    
+    }
   }
-
+  
+  
   /*
-    Explaining the for-loop above:
-        
-    analogWrite(pins[0], (((AcReads[0] + 20000) / 157)));
-    analogWrite(pins[1], (((-AcReads[0] + 20000) / 157)));
-    analogWrite(pins[2], (((AcReads[1] + 20000) / 157)));
-    analogWrite(pins[3], (((-AcReads[1] + 20000) / 157)));
-    analogWrite(pins[4], (((AcReads[2] + 20000) / 157)));
-    analogWrite(pins[5], (((-AcReads[2] + 20000) / 157)));
+  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
+    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
+    //analogWrite(pins[i], temp * temp * temp / 270 * 1.3);
+    if(temp >= 30) {
+      digitalWrite(pins[i], HIGH);
+      
+    } else {
+      digitalWrite(pins[i], LOW);
+    }
+  }
+  */
+  
+  //Describing the for-loop above:
+  /*
+    analogWrite(pins[0], (((AcReads[0]+20000)/1000)^3/270)*1.3);
+    analogWrite(pins[1], (((-AcReads[0]+20000)/1000)^3/270)*1.3);
+    analogWrite(pins[2], (((AcReads[1]+20000)/1000)^3/270)*1.3);
+    analogWrite(pins[3], (((-AcReads[1]+20000)/1000)^3/270)*1.3);
+    analogWrite(pins[4], (((AcReads[2]+20000)/1000)^3/270)*1.3);
+    analogWrite(pins[5], (((-AcReads[2]+20000)/1000)^3/270)*1.3);
   */
 
   // For serial-plotter data -> Ctrl + Shift + L
-  Serial.print(" Top : "); Serial.print(((AcReads[0] + 20000) / 157));
-  Serial.print(" Bottom: "); Serial.print(((-AcReads[(int)1/2] + 20000) / 157));
-  Serial.print(" Back: "); Serial.print(((AcReads[(int)2/2] + 20000) / 157));
-  Serial.print(" Front: "); Serial.print(((-AcReads[(int)3/2] + 20000) / 157));
-  Serial.print(" Right: "); Serial.print(((AcReads[(int)4/2] + 20000) / 157));
-  Serial.print(" Left: "); Serial.println(((-AcReads[(int)5/2] + 20000) / 157));
-
-  // Read temperature data so accelerator data would read be from the right place
-  Tmp = (Wire.read() << 8 | Wire.read());
-
-  // Read gyro data so accelerator data would read be from the right place
-  GyX = (Wire.read() << 8 | Wire.read());
-  GyY = (Wire.read() << 8 | Wire.read());
-  GyZ = (Wire.read() << 8 | Wire.read());
+  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
+    Serial.print(" ");
+    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
+    Serial.print(temp);
+  }
+  Serial.println();
 }
