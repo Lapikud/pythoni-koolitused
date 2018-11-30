@@ -20,18 +20,6 @@ void setup() {
   }
 }
 
-int findIndex() {
-  double maxValue = 0;
-  int maxIndex = 0;
-  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
-    if (temp > maxValue) {
-      maxIndex = i;
-      maxValue = temp;
-    }
-  }
-  return maxIndex;
-}
 
 void loop() {
   Wire.beginTransmission(MPU); // Start communication on address/bus MPU
@@ -43,19 +31,34 @@ void loop() {
   AcReads[1] = ((Wire.read() << 8 | Wire.read())); // AcX
   AcReads[2] = ((Wire.read() << 8 | Wire.read())); // AcY
   AcReads[0] = ((Wire.read() << 8 | Wire.read())); // AcZ
-
-  // Send data to LED's
-  int highIndex = findIndex();
+/*
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    if(i == highIndex) {
-      digitalWrite(pins[i], HIGH);    
-    } else {
-      digitalWrite(pins[i], LOW);    
+    digitalWrite(pins[i], HIGH);
+  }
+  */
+
+  /*
+// get max LED
+  int maxValue = 0;
+  int maxIndex = 0;
+  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
+    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
+    if (temp > maxValue) {
+      maxIndex = i;
+      maxValue = temp;
     }
   }
+
+// Send data to LED's
+  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
+    if(i == maxIndex) {
+        digitalWrite(pins[i], HIGH);    
+      } else {
+        digitalWrite(pins[i], LOW);    
+      }
+  }
+  */
   
-  
-  /*
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
     double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
     //analogWrite(pins[i], temp * temp * temp / 270 * 1.3);
@@ -66,7 +69,7 @@ void loop() {
       digitalWrite(pins[i], LOW);
     }
   }
-  */
+  
  
   //Describing the for-loop above:
   /*
