@@ -5,8 +5,7 @@
 const int MPU = 0x68;  // Memory address/serialBus reserved for communicating with gyro // Prolly translates to A4
 double AcReads[3]; // For storing gyro values
 
-// const int pins[] = {5, 3, 9, 10, 6, 11}; // Pins used for LEDs
-const int pins[] = {10, 5, 6, 9, 3, 11}; 
+const int pins[] = {3, 5, 6, 9, 10, 11}; // Pins used for LEDs
 // Pin order: Top Bottom Front Back Left Right  -- I think (O_O)
 
 void setup() {
@@ -68,7 +67,7 @@ void loop() {
     }
   }
   */
-  
+ 
   //Describing the for-loop above:
   /*
     analogWrite(pins[0], (((AcReads[0]+20000)/1000)^3/270)*1.3);
@@ -84,6 +83,7 @@ void loop() {
     Serial.print(" ");
     double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
     Serial.print(temp);
+    Serial.print(temp * temp * temp / 270 * 1.3);
   }
   Serial.println();
 }
