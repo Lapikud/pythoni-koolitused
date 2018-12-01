@@ -37,12 +37,11 @@ void loop() {
   }
   */
 
-  /*
 // get max LED
   int maxValue = 0;
   int maxIndex = 0;
   for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
+    double temp = (1 - 2 * (i % 2)) * AcReads[i / 2];
     if (temp > maxValue) {
       maxIndex = i;
       maxValue = temp;
@@ -57,19 +56,6 @@ void loop() {
         digitalWrite(pins[i], LOW);    
       }
   }
-  */
-  
-  for (int i = 0; i < sizeof(pins) / sizeof(int); i++) {
-    double temp = ((1 - 2 * (i % 2)) * AcReads[i / 2] + 20000) / 1000;
-    //analogWrite(pins[i], temp * temp * temp / 270 * 1.3);
-    if(temp >= 30) {
-      digitalWrite(pins[i], HIGH);
-      
-    } else {
-      digitalWrite(pins[i], LOW);
-    }
-  }
-  
  
   //Describing the for-loop above:
   /*
